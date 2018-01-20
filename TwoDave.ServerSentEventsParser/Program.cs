@@ -7,7 +7,7 @@ namespace TwoDave.ServerSentEventsParser
     {
         static void Main (string[] args)
         {
-            InputTest.ConsumeString();
+            //Parser.Parse();
         }
     }
 }
