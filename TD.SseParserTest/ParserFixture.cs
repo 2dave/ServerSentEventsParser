@@ -7,7 +7,7 @@ namespace TD.SseParserTest
     public class ParserFixture
     {
         [Fact]
-        public void Test1()
+        public void BeginningParserTest()
         {
             var input = "data: This is data.\r\ndata: More data is expec";
             //string line;
@@ -19,7 +19,6 @@ namespace TD.SseParserTest
             Assert.Equal("data: This is data.", line);
             Assert.Equal("data: More data is expec", remainder);
         }
-
 
     }
 }

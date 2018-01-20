@@ -7,7 +7,8 @@ namespace TwoDave.ServerSentEventsParser
     {
         static void Main (string[] args)
         {
-            //Parser.Parse();
+            var input = "data: This is data.\r\ndata: More data is expec";
+            string line = Parser.Parse(input, out string remainder);
         }
     }
 }
