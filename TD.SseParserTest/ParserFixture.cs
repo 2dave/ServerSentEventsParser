@@ -10,8 +10,6 @@ namespace TD.SseParserTest
         public void BeginningParserTest()
         {
             var input = "data: This is data.\r\ndata: More data is expec";
-            //string line;
-            //string remainder;
 
             //Parser.Parse(input, ref line, out remainder);
             var line = Parser.Parse(input, out var remainder);
