@@ -1,6 +1,6 @@
 using System;
-using Xunit;
 using TwoDave.ServerSentEventsParser;
+using Xunit;
 
 namespace TD.SseParserTest
 {

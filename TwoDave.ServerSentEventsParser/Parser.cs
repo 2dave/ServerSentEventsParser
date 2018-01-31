@@ -7,29 +7,49 @@ namespace TwoDave.ServerSentEventsParser
     {
         public static string Parse(string input, out string remainder)
         {
-            char quickcounter;
+            // Some common line terminator unicode values:
+            // \u000a - Line Feed
+            // \u000b - Vertical Tab
+            // \u000c - Form Feed
+            // \u000d - Carriage Return
 
-            for (int i = 0; i < input.Length; i++)
+            var lfsearch = input.IndexOf('\u000a'); //first occurence 
+            var crsearch = input.IndexOf('\u000d'); //first occurence
+            var lf = 0;
+            var cr = 0;
+
+            Console.WriteLine("Line Feed first occurence found at index {0}", lfsearch);
+            Console.WriteLine("Carriage return first occurence found at index {0}", crsearch);
+
+            // finding stuff in the string
+            for (var i = 0; i < input.Length; i++)
             {
                 char temp = input[i];
 
-                if (temp == 13) //Decimal value of /r
+                if (temp == '\u000a')
                 {
-                    Console.WriteLine("Carriage return found");
+                    lf++;
                 }
 
-                if (temp == 10) //Decimal value of /n
+                if (temp == '\u000d')
                 {
-                    Console.WriteLine("New line found");
+                    cr++;
                 }
-
-                //quickcounter = temp; //checking the last character
-                
-
             }
-            
-            var line = "data: This is data."; //the answer for line the unit test expects;
-            remainder = "data: More data is expec"; //the answer for remainder the unit test expects;
+
+            var line = input.Remove(lfsearch);
+            line = input.Remove(crsearch);
+
+            remainder = input;
+            remainder = remainder.Remove(0, 21);
+
+            Console.WriteLine("Total LFs = {0}", lf);
+            Console.WriteLine("Total CRs = {0}", cr);
+
+            //var line = "data: This is data."; //the answer for line the unit test expects;
+            //remainder = "data: More data is expec"; //the answer for remainder the unit test expects;
+            Console.WriteLine("line now equals = {0}", line);
+            Console.WriteLine("Remainder = {0}", remainder);
 
             return line;
 
