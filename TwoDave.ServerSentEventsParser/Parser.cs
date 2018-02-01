@@ -17,6 +17,8 @@ namespace TwoDave.ServerSentEventsParser
             var crsearch = input.IndexOf('\u000d'); //first occurence
             var lf = 0;
             var cr = 0;
+            var line = "";
+            remainder = "";
 
             //Console.WriteLine("Line Feed first occurence found at index {0}", lfsearch);
             //Console.WriteLine("Carriage return first occurence found at index {0}", crsearch);
@@ -36,14 +38,16 @@ namespace TwoDave.ServerSentEventsParser
                 }
             }
 
-            var line = input.Remove(lfsearch);
-            line = input.Remove(crsearch);
+            if (lfsearch >= 0 && crsearch >= 0)
+            {
+                line = input.Remove(lfsearch);
+                line = input.Remove(crsearch);
+            }
 
-            remainder = input.Remove(0, 21);
+            remainder = input.Remove(0, lfsearch + 1); // lfsearch = -1 when blank. is this good enough?
 
-            Console.WriteLine("Total LFs = {0}", lf);
-            Console.WriteLine("Total CRs = {0}", cr);
-
+            //Console.WriteLine("Total LFs = {0}", lf);
+            //Console.WriteLine("Total CRs = {0}", cr);
             //Console.WriteLine("Line = {0}", line);
             //Console.WriteLine("Remainder = {0}", remainder);
 

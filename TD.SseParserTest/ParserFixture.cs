@@ -18,5 +18,16 @@ namespace TD.SseParserTest
             Assert.Equal("data: More data is expec", remainder);
         }
 
+        [Fact]
+        public void ParserTestBlank()
+        {
+            var input = "";
+
+            var line = Parser.Parse(input, out var remainder);
+
+            Assert.Equal("", line);
+            Assert.Equal("", remainder);
+        }
+
     }
 }
