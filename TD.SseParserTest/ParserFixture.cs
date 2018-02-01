@@ -19,6 +19,17 @@ namespace TD.SseParserTest
         }
 
         [Fact]
+        public void ParserTestCustomerSpecExample()
+        {
+            var input = "event: partia";
+
+            var line = Parser.Parse(input, out var remainder);
+
+            Assert.Equal("", line);
+            Assert.Equal("event: partia", remainder);
+        }
+
+        [Fact]
         public void ParserTestBlank()
         {
             var input = "";

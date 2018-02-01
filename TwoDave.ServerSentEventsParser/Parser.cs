@@ -40,7 +40,7 @@ namespace TwoDave.ServerSentEventsParser
 
             if (lfsearch >= 0 && crsearch >= 0)
             {
-                line = input.Remove(lfsearch);
+                //line = input.Remove(lfsearch);
                 line = input.Remove(crsearch);
             }
 
