@@ -15,14 +15,15 @@ namespace TwoDave.ServerSentEventsParser
 
             var lfsearch = input.IndexOf('\u000a'); //first occurence 
             var crsearch = input.IndexOf('\u000d'); //first occurence
-            var lf = 0;
-            var cr = 0;
             var line = "";
             remainder = "";
 
+            #region Block that counts LFs and CRs - not used
             //Console.WriteLine("Line Feed first occurence found at index {0}", lfsearch);
             //Console.WriteLine("Carriage return first occurence found at index {0}", crsearch);
 
+            var lf = 0;
+            var cr = 0;
             for (var i = 0; i < input.Length; i++)
             {
                 char temp = input[i];
@@ -37,6 +38,7 @@ namespace TwoDave.ServerSentEventsParser
                     cr++;
                 }
             }
+            #endregion
 
             if (lfsearch >= 0 && crsearch >= 0)
             {
@@ -46,12 +48,15 @@ namespace TwoDave.ServerSentEventsParser
 
             remainder = input.Remove(0, lfsearch + 1); // lfsearch = -1 when blank. is this good enough?
 
-            //Console.WriteLine("Total LFs = {0}", lf);
-            //Console.WriteLine("Total CRs = {0}", cr);
-            //Console.WriteLine("Line = {0}", line);
-            //Console.WriteLine("Remainder = {0}", remainder);
+            if (line == "")
+            {
+                return null;
+            }
+            else
+            {
+                return line;
+            }
 
-            return line;
             //throw new NotImplementedException();
         }
     }

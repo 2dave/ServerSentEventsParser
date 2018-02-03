@@ -25,7 +25,7 @@ namespace TD.SseParserTest
 
             var line = Parser.Parse(input, out var remainder);
 
-            Assert.Equal("", line);
+            Assert.Equal(null, line);
             Assert.Equal("event: partia", remainder);
         }
 
@@ -36,7 +36,7 @@ namespace TD.SseParserTest
 
             var line = Parser.Parse(input, out var remainder);
 
-            Assert.Equal("", line);
+            Assert.Equal(null, line);
             Assert.Equal("", remainder);
         }
 
