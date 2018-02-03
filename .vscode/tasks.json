@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/ServerSentEventsParser.csproj"
+                "${workspaceFolder}/TwoDave.ServerSentEventsParser/TwoDave.ServerSentEventsParser.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
