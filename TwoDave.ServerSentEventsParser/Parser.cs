@@ -21,5 +21,18 @@ namespace TwoDave.ServerSentEventsParser
 
             return line;
         }
+
+        public static SseMessage ParseMessage(string input, out string remainder)
+        {
+            SseMessage message = new SseMessage();
+            var lfsearch = input.IndexOf('\n'); //first occurence 
+            var crsearch = input.IndexOf('\r'); //first occurence
+
+            message.Id = "1";
+            remainder = "";
+
+            return message;
+        }
+
     }
 }
