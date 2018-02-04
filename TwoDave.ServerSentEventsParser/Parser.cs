@@ -5,7 +5,7 @@ namespace TwoDave.ServerSentEventsParser
 {
     public class Parser
     {
-        public static string Parse(string input, out string remainder)
+        public static string ParseLine(string input, out string remainder)
         {
             string line = null;
             var lfsearch = input.IndexOf('\n'); //first occurence 
