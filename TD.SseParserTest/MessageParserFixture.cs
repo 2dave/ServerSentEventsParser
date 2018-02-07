@@ -9,15 +9,15 @@ namespace TD.SseParserTest
         [Fact]
         public void BeginningMessageParserTest()
         {
-            var input = "id: 1\r\n\r\n";
-            var remainder = "";
+            var input = "Id: 1\r\n\r\n";
+            //var remainder = "";
             SseMessage message = new SseMessage();
 
-            message = Parser.ParseMessage(input, out remainder);
+            message = Parser.ParseMessage(input, out var remainder);
             
             Assert.Equal("1", message.Id);
             Assert.Equal("", remainder);
-        }
+        }      
 
 
     }
