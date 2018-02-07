@@ -47,19 +47,19 @@ namespace TwoDave.ServerSentEventsParser
             #endregion
 
             message.Id = ParseLine(input, out remainder);
-            Console.WriteLine("message.Id = {0}", message.Id);
+            Console.WriteLine("raw message.Id = {0}", message.Id);
 
-            //removing Id: from the message            
-            var removestring = "Id: ";
-            int index = message.Id.IndexOf(removestring);
-            int length = removestring.Length;
-            string startstring = message.Id.Substring(0, index);
-            string endofstring = message.Id.Substring(index + length);
-            string clean = startstring + endofstring;
-
-            message.Id = clean;
-
-            Console.WriteLine("clean = {0}", clean);
+            //Does an Id: exist? if so clean it up and set message.Id
+            if (message.Id.IndexOf("Id:") >= 0) 
+            {
+                var removestring = "Id:";
+                int index = message.Id.IndexOf(removestring);
+                int length = removestring.Length;
+                string startstring = message.Id.Substring(0, index); //Getting string up until beginning of removal string 
+                string endofstring = message.Id.Substring(index + length); //Getting everything after removal string
+                string clean = startstring.Trim() + endofstring.Trim(); //Removing leading and trailing spaces
+                message.Id = clean; 
+            }
 
             //message.Id = "1";
             remainder = "";

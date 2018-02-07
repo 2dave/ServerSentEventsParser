@@ -13,7 +13,7 @@ namespace TwoDave.ServerSentEventsParser
             //Console.WriteLine("Input = {0}", line);
             //Console.WriteLine("Remainder = {0}", remainder);
 
-            var input = "Id: 1\r\n\r\n";
+            var input = "aaaId: 1\r\n\r\n";
             var remainder = "";
             SseMessage message = new SseMessage();
 
