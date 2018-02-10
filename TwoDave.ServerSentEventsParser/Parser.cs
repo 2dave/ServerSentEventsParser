@@ -46,26 +46,29 @@ namespace TwoDave.ServerSentEventsParser
             }
             #endregion
 
-            // Parse message line by line - until you hit /r/n/r/n
-            message.Id = ParseLine(input, out remainder);
-            remainder = remainder.TrimStart();
-            Console.WriteLine("raw message.Id = {0}", message.Id);
-            Console.WriteLine("raw remainder = {0}", remainder);
+            // Parse message line by line
+            var line = ParseLine(input, out remainder);
+            message.Id = line;
+            //message.Event = line; // seems like a bad idea
+            //message.Data = line;
+            
+            remainder = remainder.TrimStart(); // but will take off the /r/n - maybe  wait until end of function?
+            //Console.WriteLine("raw message.Id = {0}", message.Id);
+            //Console.WriteLine("raw remainder = {0}", remainder);
 
             //Does an Id: exist? if so clean it up and set message.Id
-            if (message.Id.IndexOf("Id:") >= 0) 
+            if (line.StartsWith("Id:"))
             {
                 var removestring = "Id:";
                 int index = message.Id.IndexOf(removestring);
                 int length = removestring.Length;
-                string startstring = message.Id.Substring(0, index); //Getting string up until beginning of removal string 
-                string endofstring = message.Id.Substring(index + length); //Getting everything after removal string
-                string clean = startstring.Trim() + endofstring.Trim(); //Removing leading and trailing spaces
+
+                var startstring = message.Id.Substring(0, index); //Getting string up until beginning of removal string 
+                var endofstring = message.Id.Substring(index + length); //Getting everything after removal string
+                var clean = startstring.Trim() + endofstring.Trim(); //Removing leading and trailing spaces
+
                 message.Id = clean; 
             }
-
-            //message.Id = "1";
-            //remainder = "";
 
             return message;
         }

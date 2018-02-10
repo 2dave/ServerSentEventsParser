@@ -26,7 +26,7 @@ namespace TD.SseParserTest
 
             message = Parser.ParseMessage(input, out var remainder);
 
-            Assert.Equal("aaa1", message.Id);
+            Assert.Equal("", message.Id);
             Assert.Equal("", remainder);
         }
 
