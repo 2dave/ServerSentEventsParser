@@ -46,8 +46,11 @@ namespace TwoDave.ServerSentEventsParser
             }
             #endregion
 
+            // Parse message line by line - until you hit /r/n/r/n
             message.Id = ParseLine(input, out remainder);
+            remainder = remainder.TrimStart();
             Console.WriteLine("raw message.Id = {0}", message.Id);
+            Console.WriteLine("raw remainder = {0}", remainder);
 
             //Does an Id: exist? if so clean it up and set message.Id
             if (message.Id.IndexOf("Id:") >= 0) 
@@ -62,7 +65,7 @@ namespace TwoDave.ServerSentEventsParser
             }
 
             //message.Id = "1";
-            remainder = "";
+            //remainder = "";
 
             return message;
         }

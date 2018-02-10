@@ -39,6 +39,5 @@ namespace TD.SseParserTest
             Assert.Equal(null, line);
             Assert.Equal("", remainder);
         }
-
     }
 }
