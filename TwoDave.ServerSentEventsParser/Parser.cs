@@ -29,51 +29,33 @@ namespace TwoDave.ServerSentEventsParser
 
             var line = ParseLine(input, out remainder);
 
-            //Debug
-            var numlines = 0;
-
-            //Parse the message line by line until nothing is left
-            while (line != null)
+            //while (!(line == null || line == ""))
+            //while (line != null && line != "")
+            while (!string.IsNullOrEmpty(line))
             {
-                //Debug - number of lines
-                numlines++;
-                Console.WriteLine("Number of Lines Processed: {0}", numlines);
-
-                //Does an Id: exist? if so clean it up and set message.Id
-                if (line.StartsWith("id:"))
-                {
-                    message.Id = line;
-
-                    var removestring = "id:";
-                    var clean = (message.Id.Substring(0 + removestring.Length)).Trim();
-
-                    message.Id = clean;
-                }
-
-                if (line.StartsWith("event:"))
-                {
-                    message.Event = line;
-
-                    var removestring = "event:";
-                    var clean = (message.Event.Substring(0 + removestring.Length)).Trim();
-
-                    message.Event = clean;
-                }
-
                 if (line.StartsWith("data:"))
                 {
-                    message.Data = line;
-
-                    var removestring = "data:";
-                    var clean = (message.Data.Substring(0 + removestring.Length)).Trim();
-
-                    message.Data = clean;
+                    if (message.Data != null)
+                    {
+                        message.Data += "\r\n";
+                    }
+                    const string removestring = "data:";
+                    message.Data += (line.Substring(0 + removestring.Length)).Trim();
+                }
+                else if (line.StartsWith("event:"))
+                {
+                    const string removestring = "event:";
+                    message.Event = (line.Substring(0 + removestring.Length)).Trim();
+                }
+                else if (line.StartsWith("id:"))
+                {
+                    const string removestring = "id:";
+                    message.Id = line.Substring(0 + removestring.Length).Trim();
                 }
 
-                // Parsed the first line of the message now continue             
                 line = ParseLine(remainder, out remainder);
             }
-            
+
             return message;
         }
     }

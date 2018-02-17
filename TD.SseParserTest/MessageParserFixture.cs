@@ -98,7 +98,7 @@ namespace TD.SseParserTest
         [Fact]
         public void MessageParserTestSpacesDoNotMatterAfterProperties()
         {
-            var input = ":Stuff to Ignore\r\nid:2\r\ndata:stuff\r\n\r\n";
+            var input = ":Stuff to Ignore\r\nid: 2\r\ndata:stuff\r\n\r\n";
             SseMessage message = new SseMessage();
 
             message = Parser.ParseMessage(input, out var remainder);
@@ -109,5 +109,16 @@ namespace TD.SseParserTest
             Assert.Equal("", remainder);
         }
 
+        [Fact]
+        public void MessageParserTestSpecExampleThree()
+        {
+            var input = "data: foo\r\ndata: bar\r\n\r\nevent: next\r\n";
+            SseMessage message = new SseMessage();
+
+            message = Parser.ParseMessage(input, out var remainder);
+
+            Assert.Equal("foo\r\nbar", message.Data);
+            Assert.Equal("event: next\r\n", remainder);
+        }
     }
 }
