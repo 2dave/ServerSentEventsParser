@@ -9,7 +9,7 @@ namespace TD.SseParserTest
         [Fact]
         public void BeginningMessageParserTest()
         {
-            var input = "Id: 1\r\n\r\n";
+            var input = "id: 1\r\n\r\n";
             SseMessage message = new SseMessage();
 
             message = Parser.ParseMessage(input, out var remainder);
@@ -26,7 +26,31 @@ namespace TD.SseParserTest
 
             message = Parser.ParseMessage(input, out var remainder);
 
-            Assert.Equal("", message.Id);
+            Assert.Equal(null, message.Id);
+            Assert.Equal("", remainder);
+        }
+
+        [Fact]
+        public void MessageParserTestForEvent()
+        {
+            var input = "event: test\r\n\r\n";
+            SseMessage message = new SseMessage();
+
+            message = Parser.ParseMessage(input, out var remainder);
+
+            Assert.Equal("test", message.Event);
+            Assert.Equal("", remainder);
+        }
+
+        [Fact]
+        public void MessageParserTestForData()
+        {
+            var input = "data: test\r\n\r\n";
+            SseMessage message = new SseMessage();
+
+            message = Parser.ParseMessage(input, out var remainder);
+
+            Assert.Equal("test", message.Data);
             Assert.Equal("", remainder);
         }
 
@@ -39,7 +63,7 @@ namespace TD.SseParserTest
             message = Parser.ParseMessage(input, out var remainder);
 
             Assert.Equal("foo", message.Event);
-            Assert.Equal("some data", message.Id);
+            Assert.Equal("some data", message.Data);
             Assert.Equal("", remainder);
 
         }

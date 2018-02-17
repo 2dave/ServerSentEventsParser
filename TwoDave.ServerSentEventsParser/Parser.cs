@@ -27,51 +27,54 @@ namespace TwoDave.ServerSentEventsParser
         {
             SseMessage message = new SseMessage();
 
-            #region IF I need to find the double /r/n 
-            var lf = 0;
-            var cr = 0;
-            for (var i = 0; i < input.Length; i++)
-            {
-                char temp = input[i];
-
-                if (temp == '\r')
-                {
-                    cr++;
-                }
-
-                if (temp == '\n')
-                {
-                    lf++;
-                }
-            }
-            #endregion
-
-            // Parse message line by line
             var line = ParseLine(input, out remainder);
-            message.Id = line;
-            //message.Event = line; // seems like a bad idea
-            //message.Data = line;
-            
-            remainder = remainder.TrimStart(); // but will take off the /r/n - maybe  wait until end of function?
-            //Console.WriteLine("raw message.Id = {0}", message.Id);
-            //Console.WriteLine("raw remainder = {0}", remainder);
 
-            //Does an Id: exist? if so clean it up and set message.Id
-            if (line.StartsWith("Id:"))
+            //Debug
+            var numlines = 0;
+
+            //Parse the message line by line until nothing is left
+            while (line != null)
             {
-                var removestring = "Id:";
-                int index = message.Id.IndexOf(removestring);
-                int length = removestring.Length;
+                //Debug - number of lines
+                numlines++;
+                Console.WriteLine("Number of Lines Processed: {0}", numlines);
 
-                var startstring = message.Id.Substring(0, index); //Getting string up until beginning of removal string 
-                var endofstring = message.Id.Substring(index + length); //Getting everything after removal string
-                var clean = startstring.Trim() + endofstring.Trim(); //Removing leading and trailing spaces
+                //Does an Id: exist? if so clean it up and set message.Id
+                if (line.StartsWith("id:"))
+                {
+                    message.Id = line;
 
-                message.Id = clean; 
+                    var removestring = "id:";
+                    var clean = (message.Id.Substring(0 + removestring.Length)).Trim();
+
+                    message.Id = clean;
+                }
+
+                if (line.StartsWith("event:"))
+                {
+                    message.Event = line;
+
+                    var removestring = "event:";
+                    var clean = (message.Event.Substring(0 + removestring.Length)).Trim();
+
+                    message.Event = clean;
+                }
+
+                if (line.StartsWith("data:"))
+                {
+                    message.Data = line;
+
+                    var removestring = "data:";
+                    var clean = (message.Data.Substring(0 + removestring.Length)).Trim();
+
+                    message.Data = clean;
+                }
+
+                // Parsed the first line of the message now continue             
+                line = ParseLine(remainder, out remainder);
             }
-
+            
             return message;
         }
-
     }
 }
