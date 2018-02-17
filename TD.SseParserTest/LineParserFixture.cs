@@ -12,7 +12,7 @@ namespace TD.SseParserTest
             var input = "data: This is data.\r\ndata: More data is expec";
 
             //Parser.Parse(input, ref line, out remainder);
-            var line = Parser.Parse(input, out var remainder);
+            var line = Parser.ParseLine(input, out var remainder);
 
             Assert.Equal("data: This is data.", line);
             Assert.Equal("data: More data is expec", remainder);
@@ -23,7 +23,7 @@ namespace TD.SseParserTest
         {
             var input = "event: partia";
 
-            var line = Parser.Parse(input, out var remainder);
+            var line = Parser.ParseLine(input, out var remainder);
 
             Assert.Equal(null, line);
             Assert.Equal("event: partia", remainder);
@@ -34,11 +34,10 @@ namespace TD.SseParserTest
         {
             var input = "";
 
-            var line = Parser.Parse(input, out var remainder);
+            var line = Parser.ParseLine(input, out var remainder);
 
             Assert.Equal(null, line);
             Assert.Equal("", remainder);
         }
-
     }
 }
