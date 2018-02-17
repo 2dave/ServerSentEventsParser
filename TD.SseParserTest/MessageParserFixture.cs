@@ -65,7 +65,48 @@ namespace TD.SseParserTest
             Assert.Equal("foo", message.Event);
             Assert.Equal("some data", message.Data);
             Assert.Equal("", remainder);
+        }
 
+        [Fact]
+        public void MessageParserTestIgnoreColon()
+        {
+            var input = ": Stuff:data should ignore\r\n\r\n";
+            SseMessage message = new SseMessage();
+
+            message = Parser.ParseMessage(input, out var remainder);
+
+            Assert.Equal(null, message.Id);
+            Assert.Equal(null, message.Data);
+            Assert.Equal(null, message.Event);
+            Assert.Equal("", remainder);
+        }
+
+        [Fact]
+        public void MessageParserTestOneColonLine()
+        {
+            var input = ":Stuff to Ignore\r\nid: 2\r\ndata: stuff\r\n\r\n";
+            SseMessage message = new SseMessage();
+
+            message = Parser.ParseMessage(input, out var remainder);
+
+            Assert.Equal("2", message.Id);
+            Assert.Equal("stuff", message.Data);
+            Assert.Equal(null, message.Event);
+            Assert.Equal("", remainder);
+        }
+
+        [Fact]
+        public void MessageParserTestSpacesDoNotMatterAfterProperties()
+        {
+            var input = ":Stuff to Ignore\r\nid:2\r\ndata:stuff\r\n\r\n";
+            SseMessage message = new SseMessage();
+
+            message = Parser.ParseMessage(input, out var remainder);
+
+            Assert.Equal("2", message.Id);
+            Assert.Equal("stuff", message.Data);
+            Assert.Equal(null, message.Event);
+            Assert.Equal("", remainder);
         }
 
     }
