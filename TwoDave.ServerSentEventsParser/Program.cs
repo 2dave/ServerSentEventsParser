@@ -7,16 +7,17 @@ namespace TwoDave.ServerSentEventsParser
     {
         static void Main(string[] args)
         {
-            var input = "event: foo\r\ndata: some data\r\n\r\n";
+            var input = "data: foo\r\ndata: bar\r\n\r\nevent: next\r\n";
             var remainder = "";
             SseMessage message = new SseMessage();
 
             message = Parser.ParseMessage(input, out remainder);
 
-            Console.WriteLine("message.Id = {0}", message.Id);
-            Console.WriteLine("message.Event = {0}", message.Data);
-            Console.WriteLine("message.Data = {0}", message.Event);
-            Console.WriteLine("Remainder = {0}", remainder);
+            Console.WriteLine("Message data should be:\r\nfoo\r\nbar");
+            Console.WriteLine(message.Data);
+
+            Console.WriteLine("Remainder should be:\r\nevent: next\r\n");
+            Console.WriteLine(remainder);
         }
     }
 }

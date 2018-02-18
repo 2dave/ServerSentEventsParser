@@ -1,0 +1,4 @@
+data: foo
+data: bar
+
+event: next
