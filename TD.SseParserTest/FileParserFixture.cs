@@ -58,5 +58,35 @@ namespace TD.SseParserTest
                 Console.WriteLine("Could not find: {0}", e.FileName);
             }
         }
+
+        [Fact]
+        public void FileParserTest()
+        {
+            var input = @".\testasdf.txt";
+
+            using(FileStream fs = File.Create(input))
+            {
+                Byte[] info = new UTF8Encoding(true).GetBytes("id: 3\r\ndata: foo\r\ndata: bar\r\n\r\nevent: next\r\n");
+                fs.Write(info, 0, info.Length);
+            }
+
+            try
+            {
+                var remainder = "";
+                SseMessage message = new SseMessage();
+
+                message = Parser.ParseFile(input, out remainder);
+
+                Assert.Equal("3", message.Id);
+                Assert.Equal("foo\r\nbar", message.Data);
+                Assert.Equal("event: next\r\n", remainder);
+
+                File.Delete(input);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("Could not find: {0}", e.FileName);
+            }
+        }
     }
 }
