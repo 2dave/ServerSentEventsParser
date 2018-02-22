@@ -19,7 +19,8 @@ namespace TwoDave.ServerSentEventsParser
 
                 Console.WriteLine("***Parsing file located at {0} ***", path);
 
-                if (message.Id != null)
+                // Could or should this be rewritten with either null conditionals or different form -> ? :
+                if (message.Id != null) //Is there a benefit to this? -> !string.IsNullOrEmpty(message.Id))
                 {
                     Console.WriteLine("Message ID = {0}", message.Id);
                 }
