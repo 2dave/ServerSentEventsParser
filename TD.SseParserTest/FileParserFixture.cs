@@ -13,7 +13,7 @@ namespace TD.SseParserTest
         {
             var input = @".\test.txt";
 
-            using(FileStream fs = File.Create(input))
+            using (FileStream fs = File.Create(input))
             {
                 Byte[] info = new UTF8Encoding(true).GetBytes("data: foo\r\ndata: bar\r\n\r\nevent: next\r\n");
                 fs.Write(info, 0, info.Length);
@@ -42,14 +42,14 @@ namespace TD.SseParserTest
         {
             try
             {
-                var input = @".\test.txt"; //Does not exist
+                var input = @".\shouldnotexist.txt";
                 var remainder = "";
                 SseMessage message = new SseMessage();
 
                 message = Parser.ParseFile(input, out remainder);
 
-                Assert.Equal(null, message.Data);
-                Assert.Equal("event: next\r\n", remainder);
+                Assert.Equal("shouldnevergethere", message.Data);
+                Assert.Equal("shouldnevergethere", remainder);
 
                 File.Delete(input);
             }
@@ -64,7 +64,7 @@ namespace TD.SseParserTest
         {
             var input = @".\testasdf.txt";
 
-            using(FileStream fs = File.Create(input))
+            using (FileStream fs = File.Create(input))
             {
                 Byte[] info = new UTF8Encoding(true).GetBytes("id: 3\r\ndata: foo\r\ndata: bar\r\n\r\nevent: next\r\n");
                 fs.Write(info, 0, info.Length);
