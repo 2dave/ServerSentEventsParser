@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "TwoDave.ServerSentEventsParser"
+		},
+		{
+			"path": "TD.SseParserTest"
+		},
+		{
+			"path": "RobMen.SeverSentEventsServer"
+		}
+	]
+}
