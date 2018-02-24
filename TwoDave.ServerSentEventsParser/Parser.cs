@@ -58,5 +58,15 @@ namespace TwoDave.ServerSentEventsParser
 
             return message;
         }
+
+        public static SseMessage ParseFile(string path, out string remainder)
+        {
+            var filemessage = File.ReadAllText(path);
+
+            SseMessage message = new SseMessage();
+            message = Parser.ParseMessage(filemessage, out remainder);
+
+            return message;
+        }
     }
 }
