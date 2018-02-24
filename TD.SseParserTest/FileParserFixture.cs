@@ -15,7 +15,7 @@ namespace TD.SseParserTest
 
             using (FileStream fs = File.Create(input))
             {
-                Byte[] info = new UTF8Encoding(true).GetBytes("data: foo\r\ndata: bar\r\n\r\nevent: next\r\n");
+                Byte[] info = Encoding.UTF8.GetBytes("data: foo\r\ndata: bar\r\n\r\nevent: next\r\n");
                 fs.Write(info, 0, info.Length);
             }
 
@@ -66,7 +66,7 @@ namespace TD.SseParserTest
 
             using (FileStream fs = File.Create(input))
             {
-                Byte[] info = new UTF8Encoding(true).GetBytes("id: 3\r\ndata: foo\r\ndata: bar\r\n\r\nevent: next\r\n");
+                Byte[] info = Encoding.UTF8.GetBytes("id: 3\r\ndata: foo\r\ndata: bar\r\n\r\nevent: next\r\n");
                 fs.Write(info, 0, info.Length);
             }
 
