@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 
 namespace TwoDave.ServerSentEventsParser
 {
@@ -59,14 +60,28 @@ namespace TwoDave.ServerSentEventsParser
             return message;
         }
 
-        public static SseMessage ParseFile(string path, out string remainder)
+        public static SseMessage ParseStream(Stream stream, out string remainder)
         {
-            var filemessage = File.ReadAllText(path);
+            byte[] bytes = new byte[4 * 1024];
+            var read = stream.Read(bytes, 0, bytes.Length); // tells the actual number bytes
 
-            SseMessage message = new SseMessage();
-            message = Parser.ParseMessage(filemessage, out remainder);
+            string s = Encoding.UTF8.GetString(bytes, 0, read);
+
+
+            SseMessage message = Parser.ParseMessage(s, out remainder);
 
             return message;
+        }
+
+        public static SseMessage ParseFile(string path, out string remainder) //take out remainder and return an array of SseMessages
+        {
+            // refactor to allow for multiple messages
+            using (var stream = File.OpenRead(path))
+            {
+                SseMessage message = Parser.ParseStream(stream, out remainder);
+                return message;
+
+            }
         }
     }
 }
