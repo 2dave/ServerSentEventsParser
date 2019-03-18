@@ -8,20 +8,35 @@ namespace TwoDave.ServerSentEventsParser
     {
         public static string ParseLine(string input, out string remainder)
         {
-            string line = null;
+            //This new refactor is not working well when there no \r\n
 
-            var crsearch = input.IndexOf('\r'); //first occurence
-            var lfsearch = input.IndexOf('\n'); //first occurence 
-
-            if (lfsearch >= 0 && crsearch >= 0)
+            string line = string.Empty;
+            remainder = string.Empty;
+            using (StringReader sr = new StringReader(input))
             {
-                line = input.Remove(crsearch);
-                //line = input.Remove(lfsearch);
+                line = sr.ReadLine(); //gets just the first line
+
+                remainder = sr.ReadToEnd(); //gets everything left 
             }
 
-            remainder = input.Remove(0, lfsearch + 1);
-
             return line;
+
+            #region "Keeping the original way I was parsing lines as comments for a bit of analysis later"
+            //string line = null;
+
+            //var crsearch = input.IndexOf('\r'); //first occurence
+            //var lfsearch = input.IndexOf('\n'); //first occurence 
+
+            //if (lfsearch >= 0 && crsearch >= 0)
+            //{
+            //    line = input.Remove(crsearch);
+            //    //line = input.Remove(lfsearch);
+            //}
+
+            //remainder = input.Remove(0, lfsearch + 1);
+
+            //return line;
+            #endregion
         }
 
         public static SseMessage ParseMessage(string input, out string remainder)
